@@ -1,6 +1,7 @@
 local target_namespace = "target_tokens";
 local transformer_model = "bert-base-cased";
-local hidden_size = 768;
+local transformer_hidden_size = 768;
+local epochs = 20;
 
 {
     "dataset_reader": {
@@ -10,12 +11,17 @@ local hidden_size = 768;
             "type": "pretrained_transformer",
             "model_name": transformer_model,
         },
+        "target_tokenizer": {
+            "type": "pretrained_transformer",
+            "model_name": transformer_model,
+            "add_special_tokens": false,
+        },
         "source_token_indexers": {
             "tokens": {
                 "type": "pretrained_transformer",
                 "model_name": transformer_model,
             },
-        }
+        },
     },
     "vocabulary": {
         "min_count": {
@@ -35,18 +41,34 @@ local hidden_size = 768;
                 },
             }
         },
+        // "encoder": {
+        //     "type": "pass_through",
+        //     "input_dim": transformer_hidden_size,
+        // },
         "encoder": {
-            "type": "pass_through",
-            "input_dim": hidden_size,
+            "type": "lstm",
+            "input_size": transformer_hidden_size,
+            "hidden_size": 100,
+            "num_layers": 2,
+            "dropout": 0,
+            "bidirectional": true
         },
         "attention": {
             "type": "bilinear",
-            "vector_dim": hidden_size,
-            "matrix_dim": hidden_size,
+            "vector_dim": 200,
+            "matrix_dim": 200,
         },
+        // "attention": {
+        //     "type": "bilinear",
+        //     "vector_dim": transformer_hidden_size,
+        //     "matrix_dim": transformer_hidden_size,
+        // },
         "target_embedding_dim": 10,
         "beam_size": 3,
         "max_decoding_steps": 20,
+        "token_based_metric": {
+            "type": "token_sequence_accuracy",
+        },
     },
     "data_loader": {
         "batch_sampler": {
@@ -57,9 +79,27 @@ local hidden_size = 768;
     "trainer": {
         "optimizer": {
             "type": "sgd",
-            "lr": 0.1
+            "lr": 0.02,
         },
-        "num_epochs": 2,
-        "cuda_device": -1,
+        // "optimizer": {
+        //     "type": "huggingface_adamw",
+        //     "weight_decay": 0.0,
+        //     // "parameter_groups": [[["bias", "LayerNorm\\.weight", "layer_norm\\.weight"], {"weight_decay": 0}]],
+        //     "lr": 2e-5,
+        //     "eps": 1e-8
+        // },
+        // "learning_rate_scheduler": {
+        //     "type": "slanted_triangular",
+        //     "num_epochs": epochs,
+        //     "cut_frac": 0.2,
+        // },
+        "learning_rate_scheduler": {
+            "type": "cosine",
+            "t_initial": 5,
+            "eta_mul": 0.9
+        },
+        "grad_clipping": 1.0,
+        "num_epochs": epochs,
+        "cuda_device": 0,
     }
 }

@@ -19,7 +19,25 @@
         "min_padding_length": 5
       }
     },
-    // "max_instances": 200,
+    "max_instances": 200,
+  },
+  "validation_dataset_reader": {
+    "type": "squad",
+    "token_indexers": {
+      "tokens": {
+        "type": "single_id",
+        "lowercase_tokens": true
+      },
+      "token_characters": {
+        "type": "characters",
+        "character_tokenizer": {
+          "byte_encoding": "utf-8",
+          "start_tokens": [259],
+          "end_tokens": [260]
+        },
+        "min_padding_length": 5
+      }
+    },
   },
   "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-train-v1.1.json",
   "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-dev-v1.1.json",
@@ -27,6 +45,10 @@
     "type": "from_files",
     "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/rc/bidaf/vocab.tar.gz",
   },
+  // "vocabulary": {
+  //   "type": "from_files",
+  //   "directory": "/tmp/bidaf/vocabulary",
+  // },
   "model": {
     "type": "bidaf",
     "text_field_embedder": {
@@ -95,6 +117,7 @@
     "grad_norm": 5.0,
     // "patience": 10,
     "validation_metric": "+em",
+    // "cuda_device": -1,
     "cuda_device": 0,
     "learning_rate_scheduler": {
       "type": "reduce_on_plateau",
