@@ -1,20 +1,27 @@
 local transformer_model = 'bert-base-cased';
 
-local epochs = 1;
+local epochs = 3;
 local batch_size = 8;
 
 {
   "dataset_reader": {
-      "type": "transformer_squad",
-      "transformer_model_name": transformer_model,
-      "skip_invalid_examples": true,
-      //"max_instances": 200  // debug setting
+      "type": "sharded",
+      "base_reader": {
+          "type": "transformer_squad",
+          "transformer_model_name": transformer_model,
+          "skip_invalid_examples": true,
+      },
   },
-  "validation_dataset_reader": self.dataset_reader + {
-      "skip_invalid_examples": false,
+  "validation_dataset_reader": {
+      "type": "sharded",
+      "base_reader": {
+          "type": "transformer_squad",
+          "transformer_model_name": transformer_model,
+          "skip_invalid_examples": false,
+      },
   },
-  "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-train-v1.1.json",
-  "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-dev-v1.1.json",
+  "train_data_path": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/data/squad_v1_1/train.tar.gz",
+  "validation_data_path": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/data/squad_v1_1/validation.tar.gz",
   "vocabulary": {"type": "empty"},
   "model": {
       "type": "transformer_qa",

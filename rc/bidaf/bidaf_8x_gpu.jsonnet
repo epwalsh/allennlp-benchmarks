@@ -3,28 +3,31 @@
 //   ArXiv/1611.01603 (2016)
 {
   "dataset_reader": {
-    "type": "squad",
-    "token_indexers": {
-      "tokens": {
-        "type": "single_id",
-        "lowercase_tokens": true
-      },
-      "token_characters": {
-        "type": "characters",
-        "character_tokenizer": {
-          "byte_encoding": "utf-8",
-          "start_tokens": [259],
-          "end_tokens": [260]
+    "type": "sharded",
+    "base_reader": {
+      "type": "squad",
+      "token_indexers": {
+        "tokens": {
+          "type": "single_id",
+          "lowercase_tokens": true
         },
-        "min_padding_length": 5
+        "token_characters": {
+          "type": "characters",
+          "character_tokenizer": {
+            "byte_encoding": "utf-8",
+            "start_tokens": [259],
+            "end_tokens": [260]
+          },
+          "min_padding_length": 5
+        }
       }
     }
   },
-  "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-train-v1.1.json",
-  "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/squad/squad-dev-v1.1.json",
+  "train_data_path": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/data/squad_v1_1/train.tar.gz",
+  "validation_data_path": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/data/squad_v1_1/validation.tar.gz",
   "vocabulary": {
     "type": "from_files",
-    "directory": "training_configs/rc/bidaf/vocab_bidaf",
+    "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/rc/bidaf/vocab.tar.gz",
   },
   "model": {
     "type": "bidaf",
