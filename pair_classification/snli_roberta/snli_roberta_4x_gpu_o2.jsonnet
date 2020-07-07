@@ -58,6 +58,7 @@ local cls_is_last_token = false;
   },
   "trainer": {
     "num_epochs": 10,
+    "opt_level": "O2",
     "validation_metric": "+accuracy",
     "learning_rate_scheduler": {
       "type": "slanted_triangular",
