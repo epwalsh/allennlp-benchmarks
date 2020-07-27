@@ -39,7 +39,7 @@ local cls_is_last_token = false;
     "seq2vec_encoder": {
        "type": "cls_pooler",
        "embedding_dim": transformer_dim,
-       // "cls_is_last_token": cls_is_last_token
+       "cls_is_last_token": cls_is_last_token
     },
     "feedforward": {
       "input_dim": transformer_dim,
@@ -53,12 +53,11 @@ local cls_is_last_token = false;
   "data_loader": {
     "batch_sampler": {
       "type": "bucket",
-      "batch_size" : 16
+      "batch_size" : 8
     }
   },
   "trainer": {
-    "num_epochs": 10,
-    "cuda_device" : 0,
+    "num_epochs": 3,
     "validation_metric": "+accuracy",
     "learning_rate_scheduler": {
       "type": "slanted_triangular",
@@ -69,5 +68,6 @@ local cls_is_last_token = false;
       "lr": 2e-5,
       "weight_decay": 0.1,
     }
-  }
+  },
+  "distributed": {"cuda_devices": [0, 1, 2, 3, 4, 5, 6, 7]},
 }

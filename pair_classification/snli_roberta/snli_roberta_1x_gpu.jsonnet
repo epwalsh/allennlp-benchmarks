@@ -16,15 +16,15 @@ local cls_is_last_token = false;
         "model_name": transformer_model,
         "max_length": 512
       }
-    }
+    },
   },
   "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_train.jsonl",
   "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_dev.jsonl",
   "test_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_test.jsonl",
-  "vocabulary": {
-    "type": "from_files",
-    "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/pair_classification/snli_roberta/vocab.tar.gz",
-  },
+  // "vocabulary": {
+  //   "type": "from_files",
+  //   "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/pair_classification/snli_roberta/vocab.tar.gz",
+  // },
   "model": {
     "type": "basic_classifier",
     "text_field_embedder": {
@@ -39,7 +39,7 @@ local cls_is_last_token = false;
     "seq2vec_encoder": {
        "type": "cls_pooler",
        "embedding_dim": transformer_dim,
-       "cls_is_last_token": cls_is_last_token
+       // "cls_is_last_token": cls_is_last_token
     },
     "feedforward": {
       "input_dim": transformer_dim,

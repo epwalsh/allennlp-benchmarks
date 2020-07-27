@@ -18,9 +18,9 @@ local cls_is_last_token = false;
       }
     }
   },
-  "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_train.jsonl",
-  "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_dev_matched.jsonl",
-  "test_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_dev_mismatched.jsonl",
+  "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_train.jsonl",
+  "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_dev.jsonl",
+  "test_data_path": "https://allennlp.s3.amazonaws.com/datasets/snli/snli_1.0_test.jsonl",
   // "vocabulary": {
   //   "type": "from_files",
   //   "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/pair_classification/snli_roberta/vocab.tar.gz",
@@ -39,7 +39,7 @@ local cls_is_last_token = false;
     "seq2vec_encoder": {
        "type": "cls_pooler",
        "embedding_dim": transformer_dim,
-       // "cls_is_last_token": cls_is_last_token
+       "cls_is_last_token": cls_is_last_token
     },
     "feedforward": {
       "input_dim": transformer_dim,
@@ -53,12 +53,11 @@ local cls_is_last_token = false;
   "data_loader": {
     "batch_sampler": {
       "type": "bucket",
-      "batch_size" : 16
+      "batch_size" : 32
     }
   },
   "trainer": {
     "num_epochs": 10,
-    "cuda_device" : 0,
     "validation_metric": "+accuracy",
     "learning_rate_scheduler": {
       "type": "slanted_triangular",
@@ -69,5 +68,6 @@ local cls_is_last_token = false;
       "lr": 2e-5,
       "weight_decay": 0.1,
     }
-  }
+  },
+  "distributed": {"cuda_devices": [0, 1, 2, 3, 4, 5, 6, 7]},
 }

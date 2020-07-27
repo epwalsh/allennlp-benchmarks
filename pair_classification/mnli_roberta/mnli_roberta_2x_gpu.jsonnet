@@ -21,6 +21,10 @@ local cls_is_last_token = false;
   "train_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_train.jsonl",
   "validation_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_dev_matched.jsonl",
   "test_data_path": "https://allennlp.s3.amazonaws.com/datasets/multinli/multinli_1.0_dev_mismatched.jsonl",
+  "vocabulary": {
+    "type": "from_files",
+    "directory": "https://github.com/epwalsh/allennlp-benchmarks/raw/master/pair_classification/snli_roberta/vocab.tar.gz",
+  },
   "model": {
     "type": "basic_classifier",
     "text_field_embedder": {
