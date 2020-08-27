@@ -21,28 +21,17 @@ local batch_size = 8;
       "transformer_model_name": transformer_model,
   },
   "data_loader": {
-    "num_workers": 4,
-    "max_instances_in_memory": 16,
-    "batch_size": batch_size,
-    // "batch_sampler": {
-    //   "type": "bucket",
-    //   "batch_size": batch_size,
-    // }
+    "batch_sampler": {
+      "type": "bucket",
+      "batch_size": batch_size,
+    }
   },
-  // "data_loader": {
-  //   "type": "pytorch",
-  //   "lazy": true,
-  //   "num_workers": 4,
-  //   "batch_size": batch_size,
-    // "batch_sampler": {
-    //   "type": "bucket",
-    //   "batch_size": batch_size,
-    // }
-  // },
   "trainer": {
+    // "use_amp": true,
+    "opt_level": "O2",
     "optimizer": {
       "type": "huggingface_adamw",
-      "weight_decay": 0.0,
+      "weight_decay": 0.1,
       "parameter_groups": [[["bias", "LayerNorm\\.weight", "layer_norm\\.weight"], {"weight_decay": 0}]],
       "lr": 2e-5,
       "eps": 1e-8
@@ -52,7 +41,7 @@ local batch_size = 8;
       "num_epochs": epochs,
       "cut_frac": 0.1,
     },
-    "grad_clipping": 1.0,
+    "grad_norm": 1.0,
     "num_epochs": epochs,
     "cuda_device": 0
   },

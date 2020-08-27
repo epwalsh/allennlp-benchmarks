@@ -1,7 +1,7 @@
 local target_namespace = "target_tokens";
 local transformer_model = "bert-base-cased";
 local transformer_hidden_size = 768;
-local epochs = 20;
+local epochs = 10;
 
 {
     "dataset_reader": {
